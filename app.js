@@ -1,19 +1,26 @@
 const express = require("express");
+const morgan = require("morgan");
 
 // Express app
 const app = express();
 
 // register view engine
 app.set("view engine", "ejs");
-// app.set("views", "myviews");
 
 // Listen for requests
 app.listen(3000);
 
-app.get("/", (req, res) => {
-  // res.send("<p>Home page</p>");
-  // res.sendFile("./views/index.html", { root: __dirname });
+// Creating custom middleware
+app.use((req, res, next) => {
+  console.log("new request made:");
+  console.log("host: ", req.hostname);
+  console.log("path: ", req.url);
+  console.log("method: ", req.method);
+  console.log("--- --- --- ---");
+  next(); // to continue the server to move on
+});
 
+app.get("/", (req, res) => {
   const blogs = [
     { title: "Yoshi finds eggs", snippet: "Lorem ipsum dolor sit amet. " },
     {
@@ -27,9 +34,11 @@ app.get("/", (req, res) => {
   ];
   res.render("index", { title: "Home", blogs: blogs });
 });
+app.use((req, res, next) => {
+  console.log("rendering ABOUT page");
+  next();
+});
 app.get("/about", (req, res) => {
-  // res.send("<p>About page</p>");
-  // res.sendFile("./views/about.html", { root: __dirname });
   res.render("about", { title: "About" });
 });
 
