@@ -11,14 +11,7 @@ app.set("view engine", "ejs");
 app.listen(3000);
 
 // Creating custom middleware
-app.use((req, res, next) => {
-  console.log("new request made:");
-  console.log("host: ", req.hostname);
-  console.log("path: ", req.url);
-  console.log("method: ", req.method);
-  console.log("--- --- --- ---");
-  next(); // to continue the server to move on
-});
+app.use(morgan("tiny"));
 
 app.get("/", (req, res) => {
   const blogs = [
@@ -34,10 +27,7 @@ app.get("/", (req, res) => {
   ];
   res.render("index", { title: "Home", blogs: blogs });
 });
-app.use((req, res, next) => {
-  console.log("rendering ABOUT page");
-  next();
-});
+
 app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
