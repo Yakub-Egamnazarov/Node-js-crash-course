@@ -7,7 +7,9 @@
       <h2><%= blog.title %></h2>
       <div class="content">
         <p><%= blog.body %></p>
-        <a class="delete" data-doc="<%= blog._id %> ">Delete</a>
+        <a class="delete" data-doc="<%= blog._id %> ">
+          <img src="/trash-outline.svg" alt="trashcan icon" />
+        </a>
       </div>
     </div>
     <%- include("./partials/footer.ejs") %>
